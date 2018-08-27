@@ -249,6 +249,11 @@ $CFG->admin = 'admin';
 //         less reliable. Use memcached where possible or if you encounter
 //         session problems. **
 //
+//   Redis session handler (requires redis server and redis extension):
+      $CFG->session_handler_class = getenv('SESSION_HANDLER_CLASS') ?? '\core\session\redis';
+      $CFG->session_redis_host = getenv('REDIS_HOST') ?? 'redis-svc';
+      $CFG->session_redis_port = getenv('REDIS_PORT') ?? '6379';  // Optional.
+
 // Please be aware that when selecting either Memcached or Memcache for sessions that it is advised to use a dedicated
 // memcache server. The memcache and memcached extensions do not provide isolated environments for individual uses.
 // Using the same server for other purposes (MUC for example) can lead to sessions being prematurely removed should
@@ -401,7 +406,7 @@ if(filter_var(getenv(MOODLE_SSL),FILTER_VALIDATE_BOOLEAN)){
 //
 // Some filesystems such as NFS may not support file locking operations.
 // Locking resolves race conditions and is strongly recommended for production servers.
-//     $CFG->preventfilelocking = false;
+$CFG->preventfilelocking = false;
 //
 // Site default language can be set via standard administration interface. If you
 // want to have initial error messages for eventual database connection problems
