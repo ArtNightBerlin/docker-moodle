@@ -1,11 +1,11 @@
 # Dockerfile for moodle instance.
 
-FROM  php:7.0-fpm-alpine
+FROM  php:7.1-fpm-alpine
 MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
 #Original Maintainer Jon Auer <jda@coldshore.com>
 
 # Replace for later version
-ARG VERSION=34
+ARG VERSION=35
 
 VOLUME ["/var/moodledata"]
 VOLUME ["/var/www/html"]
@@ -42,8 +42,26 @@ RUN \
 		mkdir -p /usr/src/moodle && \
 		mv /tmp/moodle /usr/src/ && \
 		chown www-data:www-data -R /usr/src/moodle && \
-		apk del unzip curl gcc g++ &&\
+		apk del unzip curl gcc g++ && \
     rm -rf /var/cache/apk/*
+
+# Install Redis 4.1 support
+RUN pecl install redis-4.1.1 \
+    && docker-php-ext-enable redis
+
+# Install Memcached support
+RUN apt-get update \
+    && apt-get install -y libmemcached-dev unzip \
+    && yes yes | pecl install memcached \
+    && docker-php-ext-enable memcached \
+    && apt-get clean && rm -rf /var/lib/apt/lists* /tmp/* /var/tmp/*
+
+# Install MooSh
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    /usr/local/bin/composer self-update && \
+    git clone git://github.com/tmuras/moosh.git /usr/local/moosh-online && \
+    cd /usr/local/moosh-online && composer install && \
+    ln -s /usr/local/moosh-online/moosh.php /usr/local/bin/moosh
 
 COPY ./scripts/moodle-config-fpm.php /usr/src/moodle/config.php
 
