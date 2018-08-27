@@ -1,28 +1,28 @@
 docker-moodle
 =============
 
-A Docker image that installs and runs the latest Moodle stable, with external MySQL, Mariadb or Postgresql Database and automated installation with a default predefined administrator user. Also all the images are availalbe via [docker hub](https://hub.docker.com/r/ellakcy/moodle/).
+A Docker image that installs and runs the latest Moodle stable, with external MySQL, Mariadb or Postgresql Database and automated installation with a default predefined administrator user. Also all the images are availalbe via [docker hub](https://hub.docker.com/r/artnight/moodle/).
 
 ## Buidling
 
 ```bash
-git clone https://github.com/ellakcy/docker-moodle.git
+git clone https://github.com/artnight/docker-moodle.git
 cd docker-moodle
 docker build -t moodle .
 ```
 
 The build will produce the following images for now all images are running apache ang php7.0:
 
-* `ellakcy/moodle:apache_base` : A base image over apache, where you just can base your own moodle image for the database you want.
-* `ellakcy/moodle:mysql_maria_apache`: An image where provides moodle installation supporting mysql or mariadb.
-* `ellakcy/moodle:postgresql_apache`:  An image where provides moodle installation supporting postgresql.
-* `ellakcy/moodle:alpine_fpm_base`: A base image over alpine and fpm, where you just can base your own moodle image for the database you want.
-* `ellakcy/moodle:mysql_maria_fpm_alpine`: An alpine-based image using fpm supporting mysql and mariadb.
-* `ellakcy/moodle:postgresql_fpm_alpine`: An alpine-based image using fpm supporting postgresql.
+* `artnight/moodle:apache_base` : A base image over apache, where you just can base your own moodle image for the database you want.
+* `artnight/moodle:mysql_maria_apache`: An image where provides moodle installation supporting mysql or mariadb.
+* `artnight/moodle:postgresql_apache`:  An image where provides moodle installation supporting postgresql.
+* `artnight/moodle:alpine_fpm_base`: A base image over alpine and fpm, where you just can base your own moodle image for the database you want.
+* `artnight/moodle:mysql_maria_fpm_alpine`: An alpine-based image using fpm supporting mysql and mariadb.
+* `artnight/moodle:postgresql_fpm_alpine`: An alpine-based image using fpm supporting postgresql.
 
 ## Run
 
-> We also developed a [docker-compose](https://github.com/ellakcy/moodle-compose) solution.
+> We also developed a [docker-compose](https://github.com/artnight/moodle-compose) solution.
 > We strongly reccomend using this one.
 
 ### Running images manually
@@ -35,7 +35,7 @@ To spawn a new instance of Moodle:
 
   ```
   docker run -d --name DB -e MYSQL_DATABASE=moodle -e MYSQL_RANDOM_ROOT_PASSWORD=yes -e MYSQL_ONETIME_PASSWORD=yes -e MYSQL_USER=^a database user^ -e MYSQL_PASSWORD=^a database password^ mysql:5.7
-  docker run -d -P --name moodle --link DB:DB -e MOODLE_DB_HOST=DB -e MOODLE_URL=http://0.0.0.0:8080 -p 8080:80 ellakcy/moodle:mysql_maria_apache
+  docker run -d -P --name moodle --link DB:DB -e MOODLE_DB_HOST=DB -e MOODLE_URL=http://0.0.0.0:8080 -p 8080:80 artnight/moodle:mysql_maria_apache
   ```
   > ** NOTICE **
   > For now due to the way that mysl authenticates its users is is working  5.7 version of mysql and earlier
@@ -44,7 +44,7 @@ To spawn a new instance of Moodle:
 
   ```
   docker run -d --name DB -e MYSQL_DATABASE=^a database name^ -e MYSQL_RANDOM_ROOT_PASSWORD=yes -e MYSQL_ONETIME_PASSWORD=yes -e MYSQL_USER=^a database user^ -e MYSQL_PASSWORD=^a database password^ mariadb:10.2
-  docker run -d -P --name moodle --link DB:DB -e MOODLE_DB_HOST=DB -e MOODLE_URL=http://0.0.0.0:8080 -e MOODLE_DB_TYPE="mariadb" -p 8080:80 ellakcy/moodle
+  docker run -d -P --name moodle --link DB:DB -e MOODLE_DB_HOST=DB -e MOODLE_URL=http://0.0.0.0:8080 -e MOODLE_DB_TYPE="mariadb" -p 8080:80 artnight/moodle
   ```
   > ** NOTICE **
   > Please use Mariadb 10.2 and earlier for reaseons same as mysql one.
@@ -53,7 +53,7 @@ To spawn a new instance of Moodle:
 
   ```
   docker run --name=DB -e POSTGRES_USER=^a database user^ -e POSTGRES_PASSWORD=^a database password^ -e POSTGRES_DB=^a database name^ -d postgres
-  docker run -d -P --name moodle --link DB:DB -e MOODLE_DB_HOST=DB -e MOODLE_URL=http://0.0.0.0:8080 -e MOODLE_DB_TYPE="pgsql" -p 8080:80 ellakcy/moodle
+  docker run -d -P --name moodle --link DB:DB -e MOODLE_DB_HOST=DB -e MOODLE_URL=http://0.0.0.0:8080 -e MOODLE_DB_TYPE="pgsql" -p 8080:80 artnight/moodle
   ```
 
 Then you can visit the following URL in a browser to get started:
@@ -65,11 +65,11 @@ http://0.0.0.0:8080
 
 ##### Alpine with Fpm based solutions
 
-For fpm solutions is recomended to use docker-compose. For **production** use is reccomended the to use the repo https://github.com/ellakcy/moodle-compose .
+For fpm solutions is recomended to use docker-compose. For **production** use is reccomended the to use the repo https://github.com/artnight/moodle-compose .
 
 ### Via docker-compose
 
-> We also developed a [docker-compose](https://github.com/ellakcy/moodle-compose) solution.
+> We also developed a [docker-compose](https://github.com/artnight/moodle-compose) solution.
 > We strongly reccomend using this one.
 
 #### All available images and varieties
@@ -110,9 +110,9 @@ Then you can visit the following urls depending the database - image variant - y
 
 Variant (database using) | Docker image | url
 --- | --- | ---
-mysql | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:6080
-mariadb | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:6081
-postgresql | `ellakcy/moodle:postgresql_apache` | http://0.0.0.0:6082
+mysql | `artnight/moodle:mysql_maria_apache` | http://0.0.0.0:6080
+mariadb | `artnight/moodle:mysql_maria_apache` | http://0.0.0.0:6081
+postgresql | `artnight/moodle:postgresql_apache` | http://0.0.0.0:6082
 
 You can login with the following credentials (development, testing & demonstration purpoces):
 
@@ -145,9 +145,9 @@ Then you can visit the following urls depending the database - image variant - y
 
 Variant (database using) | Docker image | url
 --- | --- | ---
-mysql | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:7070
-mariadb | `ellakcy/moodle:mysql_maria_apache` | http://0.0.0.0:7071
-postgresql | `ellakcy/moodle:postgresql_apache` | http://0.0.0.0:7072
+mysql | `artnight/moodle:mysql_maria_apache` | http://0.0.0.0:7070
+mariadb | `artnight/moodle:mysql_maria_apache` | http://0.0.0.0:7071
+postgresql | `artnight/moodle:postgresql_apache` | http://0.0.0.0:7072
 
 You can login with the following credentials (development, testing & demonstration purpoces):
 
@@ -268,4 +268,4 @@ export COMPOSE_HTTP_TIMEOUT=120
 
 ## Credits
 
-This is a fork of [mhardison/docker-moodle](https://github.com/jmhardison/docker-moodle).
+This is a fork of [ellakcy/docker-moodle](https://github.com/ellakcy/docker-moodle).
