@@ -1,4 +1,4 @@
-FROM  ellakcy/moodle:alpine_fpm_base
+FROM  artnight/moodle:alpine_fpm_base
 MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
 
 COPY ./scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
