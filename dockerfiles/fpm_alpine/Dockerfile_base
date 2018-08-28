@@ -26,7 +26,7 @@ ENV \
 
 # Installing php and external tools
 RUN \
-		apk add --update curl bash rsync unzip netcat-openbsd libxml2-dev icu-dev libmcrypt-dev libpng-dev libjpeg-turbo-dev  &&\
+		apk add --update curl bash rsync unzip netcat-openbsd libxml2-dev icu-dev libmcrypt-dev libpng-dev libjpeg-turbo-dev autoconf && \
  		docker-php-ext-install xmlrpc && \
 		docker-php-ext-install mbstring && \
 		docker-php-ext-install zip && \
@@ -46,15 +46,17 @@ RUN \
     rm -rf /var/cache/apk/*
 
 # Install Redis 4.1 support
-RUN pecl install redis-4.1.1 \
-    && docker-php-ext-enable redis
+RUN apk add --update curl bash rsync unzip netcat-openbsd libxml2-dev icu-dev libmcrypt-dev libpng-dev libjpeg-turbo-dev autoconf gcc musl-dev make && \
+    pecl install redis-4.1.1 \
+    && docker-php-ext-enable redis \
+    && apk del autoconf gcc musl-dev make \
+    && rm -rf /var/cache/apk/*
 
 # Install Memcached support
-RUN apt-get update \
-    && apt-get install -y libmemcached-dev unzip \
+RUN apk add --update autoconf file g++ gcc libc-dev make pkgconf re2c zlib-dev libmemcached-dev git libmemcached-libs zlib cyrus-sasl-dev \
     && yes yes | pecl install memcached \
     && docker-php-ext-enable memcached \
-    && apt-get clean && rm -rf /var/lib/apt/lists* /tmp/* /var/tmp/*
+    && apk del autoconf file g++ gcc libc-dev make pkgconf re2c zlib-dev libmemcached-dev libmemcached-libs zlib cyrus-sasl-dev && rm -rf /var/cache/apk/*
 
 # Install MooSh
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \

@@ -54,7 +54,7 @@ RUN pecl install redis-4.1.1 \
 
 # Install Memcached support
 RUN apt-get update \
-    && apt-get install -y libmemcached-dev unzip \
+    && apt-get install -y libmemcached-dev unzip git-core \
     && yes yes | pecl install memcached \
     && docker-php-ext-enable memcached \
     && apt-get clean && rm -rf /var/lib/apt/lists* /tmp/* /var/tmp/*
