@@ -45,6 +45,8 @@ RUN \
 		apk del unzip curl gcc g++ && \
     rm -rf /var/cache/apk/*
 
+COPY ./scripts/file-upload.ini /usr/local/etc/php/conf.d/file-upload.ini
+
 # Install Redis 4.1 support
 RUN apk add --update curl bash rsync unzip netcat-openbsd libxml2-dev icu-dev libmcrypt-dev libpng-dev libjpeg-turbo-dev autoconf gcc musl-dev make && \
     pecl install redis-4.1.1 \
