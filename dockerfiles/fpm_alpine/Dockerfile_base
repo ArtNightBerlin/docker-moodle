@@ -5,7 +5,7 @@ MAINTAINER Dimitrios Desyllas <pcmagas@disroot.org>
 #Original Maintainer Jon Auer <jda@coldshore.com>
 
 # Replace for later version
-ARG VERSION=35
+ARG VERSION=36
 
 VOLUME ["/var/moodledata"]
 VOLUME ["/var/www/html"]
@@ -64,6 +64,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
     git clone git://github.com/tmuras/moosh.git /usr/local/moosh-online && \
     cd /usr/local/moosh-online && composer install && \
     ln -s /usr/local/moosh-online/moosh.php /usr/local/bin/moosh
+
+RUN echo "* * * * * /usr/local/bin/php  /var/www/html/admin/cli/cron.php >/dev/null" > /etc/periodic/15min/moodle-cron && \
+    chmod a+x /etc/periodic/15min/moodle-cron
+
+CMD /usr/sbin/crond
 
 COPY ./scripts/moodle-config-fpm.php /usr/src/moodle/config.php
 
