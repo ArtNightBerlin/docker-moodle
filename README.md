@@ -6,7 +6,7 @@ A Docker image that installs and runs the latest Moodle stable, with external My
 ## Buidling
 
 ```bash
-git clone https://github.com/artnight/docker-moodle.git
+git clone https://github.com/ArtNightBerlin/docker-moodle.git
 cd docker-moodle
 docker build -t moodle .
 ```
